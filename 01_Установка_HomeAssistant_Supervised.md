@@ -89,7 +89,7 @@ gdbus introspect --system --dest io.hass.os --object-path /io/hass/os
 wget -O homeassistant-supervised.deb https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
 apt install ./homeassistant-supervised.deb
 ```
-После установки очень желательно машину лучше перезагрузить, и скорее всего адрес поменяется. Зайти в консоль и посмотреть текущий адрес с помощью команды `ip -4 a`. Далее через 2-3 минуты (или дольше) заходим по адресу http://IP_ADDRESS:8123/ (где IP_ADDRESS - новый IP-адрес машины), ждем завершения и настраиваем Home Assistant.
+После установки очень желательно машину перезагрузить, и скорее всего адрес поменяется. Зайти в консоль и посмотреть текущий адрес с помощью команды `ip -4 a`. Далее через 2-3 минуты (или дольше) заходим по адресу http://IP_ADDRESS:8123/ (где IP_ADDRESS - новый IP-адрес машины), ждем завершения и настраиваем Home Assistant.
 
 ![](https://github.com/GennPen/HomeAssistant/blob/main/images/01%20-%202024-06-01%20012114.jpg)
 
