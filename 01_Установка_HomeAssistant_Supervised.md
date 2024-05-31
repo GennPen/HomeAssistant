@@ -100,7 +100,7 @@ ping: checkonline.home-assistant.io: Temporary failure in name resolution
 ping: checkonline.home-assistant.io: Temporary failure in name resolution
 [info] Waiting for checkonline.home-assistant.io - network interface might be down...
 ```
-Не завершая сеанс установки! Заходим в параллельный сеанс (Alt-F2 если не через SSH, а напрямую) и прописываем DNS-сервер на сетевой интерфейс (выше описано как). Установка сама продолжится.
+Не завершая сеанс установки! Заходим в параллельный сеанс (Alt-F2 если не через SSH, а напрямую) и прописываем DNS-сервер на сетевой интерфейс (выше описано как). Установка сама продолжится (вернуться в первый сеанс - Alt-F1).
 
 ------------
 
