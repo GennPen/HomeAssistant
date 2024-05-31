@@ -89,7 +89,7 @@ gdbus introspect --system --dest io.hass.os --object-path /io/hass/os
 wget -O homeassistant-supervised.deb https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
 apt install ./homeassistant-supervised.deb
 ```
-После установки скорее всего адрес поменяется. Зайти в консоль и посмотреть текущий адрес с помощью команды `ip -4 a`. Далее заходим на по адресу http://IP_ADDRESS:8123/, ждем завершения и настраиваем Home Assistant.
+После установки скорее всего адрес поменяется. Зайти в консоль и посмотреть текущий адрес с помощью команды `ip -4 a`. Далее заходим по адресу http://IP_ADDRESS:8123/, ждем завершения и настраиваем Home Assistant.
 
 Если в процессе установки отвалился резольвер и в консоль идут бесконечные ошибки:
 ```
@@ -98,7 +98,7 @@ ping: checkonline.home-assistant.io: Temporary failure in name resolution
 ping: checkonline.home-assistant.io: Temporary failure in name resolution
 [info] Waiting for checkonline.home-assistant.io - network interface might be down...
 ```
-Не завершая сеанс установки! Заходим в параллельный сеанс (Alt-F2 если не через SSH, а напрямую) и прописываем DNS-сервер на сетевой интерфейс. Установка сама продолжится.
+Не завершая сеанс установки! Заходим в параллельный сеанс (Alt-F2 если не через SSH, а напрямую) и прописываем DNS-сервер на сетевой интерфейс (выше описано как). Установка сама продолжится.
 
 ![](https://github.com/GennPen/HomeAssistant/blob/main/images/01%20-%202024-06-01%20012114.jpg)
 
