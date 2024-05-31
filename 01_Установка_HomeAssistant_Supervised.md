@@ -39,25 +39,35 @@ apt install apparmor bluez cifs-utils curl dbus jq libglib2.0-bin lsb-release ne
 ```shell
 curl -fsSL get.docker.com | sh
 ```
-... и внезапно обнаруживаем, что отвалился резольвер (на самом деле, установился другой, `systemd-resolved`):
+... и внезапно обнаруживаем, что отвалился резольвер (на самом деле, установился другой: `systemd-resolved`):
 ```
 root@homeassistant:~# curl -fsSL get.docker.com | sh
 curl: (6) Could not resolve host: get.docker.com
 ```
-Редактируем файл `nano /etc/systemd/resolved.conf` раскомментировав строку и добавив DNS-сервер роутера, `1.1.1.1` и/или `8.8.8.8`. Далее перезагружаем сервис или систему в целом (чтобы наверняка) и проверяем:
+Проверяем:
 ```
-root@homeassistant:~# systemctl restart systemd-resolved.service
 root@homeassistant:~# resolvectl dns
-Global: 192.168.1.1
+Global:
 Link 2 (ens192):
+```
+Отсутствуют DNS-сервера на интерфейсах.
+
+Добавляем на сетевой интерфейс DNS-сервер роутера, `1.1.1.1` и/или `8.8.8.8` и проверяем:
+```
+root@homeassistant:~# resolvectl dns ens192 192.168.1.1
+root@homeassistant:~# resolvectl dns
+Global:
+Link 2 (ens192): 192.168.1.1
 root@homeassistant:~# ping4 google.com
-PING  (74.125.131.102) 56(84) bytes of data.
-64 bytes from lu-in-f102.1e100.net (74.125.131.102): icmp_seq=1 ttl=107 time=29.8 ms
-64 bytes from lu-in-f102.1e100.net (74.125.131.102): icmp_seq=2 ttl=107 time=29.8 ms
-64 bytes from lu-in-f102.1e100.net (74.125.131.102): icmp_seq=3 ttl=107 time=30.0 ms
+PING  (74.125.131.100) 56(84) bytes of data.
+64 bytes from lu-in-f100.1e100.net (74.125.131.100): icmp_seq=1 ttl=107 time=30.0 ms
+64 bytes from lu-in-f100.1e100.net (74.125.131.100): icmp_seq=2 ttl=107 time=30.0 ms
+64 bytes from lu-in-f100.1e100.net (74.125.131.100): icmp_seq=3 ttl=107 time=29.8 ms
 ^C
 ```
 Отлично! Повторяем попытку установки докера.
+
+### Внимание! После перезагрузки обязательно перепроверять, настройки могут слететь!
 
 ------------
 
@@ -74,3 +84,25 @@ gdbus introspect --system --dest io.hass.os --object-path /io/hass/os
 
 ------------
 
+Далее скачиваем и устанавливаем Home Assistant:
+```shell
+wget -O homeassistant-supervised.deb https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
+apt install ./homeassistant-supervised.deb
+```
+После установки скорее всего адрес поменяется. Зайти в консоль и посмотреть текущий адрес с помощью команды `ip -4 a`. Далее заходим на по адресу http://IP_ADDRESS:8123/, ждем завершения и настраиваем Home Assistant.
+
+Если в процессе установки отвалился резольвер и в консоль идут бесконечные ошибки:
+```
+ping: checkonline.home-assistant.io: Temporary failure in name resolution
+[info] Waiting for checkonline.home-assistant.io - network interface might be down...
+ping: checkonline.home-assistant.io: Temporary failure in name resolution
+[info] Waiting for checkonline.home-assistant.io - network interface might be down...
+```
+Не завершая сеанс установки! Заходим в параллельный сеанс (Alt-F2 если не через SSH, а напрямую) и прописываем DNS-сервер на сетевой интерфейс. Установка сама продолжится.
+
+![](https://github.com/GennPen/HomeAssistant/blob/main/images/01%20-%202024-06-01%20012114.jpg)
+
+------------
+
+### Важно, для жителей РФ!
+Т.к. Home Assistant работает на докере, который успешно заблокировал доступ, нужно прописать зеркала. Подробности: https://huecker.io
