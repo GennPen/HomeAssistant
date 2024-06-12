@@ -84,8 +84,41 @@ wget https://github.com/home-assistant/os-agent/releases/download/1.6.0/os-agent
 dpkg -i os-agent_1.6.0_linux_x86_64.deb
 ```
 Проверяем его работоспособность:
-```shell
-gdbus introspect --system --dest io.hass.os --object-path /io/hass/os
+```
+root@debian:~# gdbus introspect --system --dest io.hass.os --object-path /io/hass/os
+node /io/hass/os {
+  interface org.freedesktop.DBus.Introspectable {
+    methods:
+      Introspect(out s out);
+    signals:
+    properties:
+  };
+  interface org.freedesktop.DBus.Properties {
+    methods:
+      Get(in  s interface,
+          in  s property,
+          out v value);
+      GetAll(in  s interface,
+             out a{sv} props);
+      Set(in  s interface,
+          in  s property,
+          in  v value);
+    signals:
+      PropertiesChanged(s interface,
+                        a{sv} changed_properties,
+                        as invalidates_properties);
+    properties:
+  };
+  interface io.hass.os {
+    methods:
+    signals:
+    properties:
+      @org.freedesktop.DBus.Property.EmitsChangedSignal("invalidates")
+      readonly s Version = '1.6.0';
+      @org.freedesktop.DBus.Property.EmitsChangedSignal("true")
+      readwrite b Diagnostics = false;
+  };
+};
 ```
 Если нет ошибок, нормально выводятся объекты `interface`, то все установилось корректно.
 
