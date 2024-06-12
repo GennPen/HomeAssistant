@@ -30,6 +30,8 @@ root@homeassistant:~#
 Устанавливаем/обновляем необходимые пакеты:
 ```shell
 apt update
+```
+```shell
 apt install apparmor bluez cifs-utils curl dbus jq libglib2.0-bin lsb-release network-manager nfs-common systemd-journal-remote systemd-resolved udisks2 wget -y
 ```
 
@@ -51,6 +53,8 @@ root@homeassistant:~# resolvectl dns
 Global:
 Link 2 (ens192):
 ```
+Сразу не работает, нужно прежде всего перезапустить `systemctl restart systemd-resolved.service`.
+
 Отсутствуют DNS-сервера на интерфейсах.
 
 Добавляем на сетевой интерфейс DNS-сервер роутера, `1.1.1.1` и/или `8.8.8.8` и проверяем:
@@ -75,6 +79,8 @@ PING  (74.125.131.100) 56(84) bytes of data.
 Далее нам нужно установить OS-Agent. Для этого скачиваем его и устанавливаем:
 ```shell
 wget https://github.com/home-assistant/os-agent/releases/download/1.6.0/os-agent_1.6.0_linux_x86_64.deb
+```
+```shell
 dpkg -i os-agent_1.6.0_linux_x86_64.deb
 ```
 Проверяем его работоспособность:
@@ -88,6 +94,8 @@ gdbus introspect --system --dest io.hass.os --object-path /io/hass/os
 Далее скачиваем и устанавливаем Home Assistant:
 ```shell
 wget -O homeassistant-supervised.deb https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
+```
+```shell
 apt install ./homeassistant-supervised.deb
 ```
 После установки очень желательно машину перезагрузить, и скорее всего адрес поменяется. Зайти в консоль и посмотреть текущий адрес с помощью команды `ip -4 a`. Далее через 2-3 минуты (или дольше) заходим по адресу http://IP_ADDRESS:8123/ (где IP_ADDRESS - новый IP-адрес машины), ждем завершения и настраиваем Home Assistant.
